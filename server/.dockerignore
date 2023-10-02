@@ -1,0 +1,8 @@
+node_modules
+.git
+.gitignore
+.DS_Store
+dev.db
+prisma/dev.db
+prisma/migrations
+migrations

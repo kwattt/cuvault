@@ -1,0 +1,36 @@
+version: '3.8'
+
+services: 
+  express:
+    build: ./server
+    image: express
+    ports:
+      - "3000:3000"
+    volumes:
+      # optional database [sqlite online]
+      - ./server/prisma/dev.db:/app/prisma/dev.db
+    env_file:
+      - ./server/.env
+    # network
+    networks:
+      - default
+
+  model:
+    build: ./model
+    image: model
+    ports:
+      - "5000:8080"
+    networks:
+      - default
+
+  frontend:
+    build: ./frontend
+    image: frontend
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "8080:8080"
+
+networks:
+  default:
+    driver: bridge
