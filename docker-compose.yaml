@@ -2,10 +2,14 @@ version: '3.8'
 
 services: 
   express:
+    # container name
+    container_name: cuvault-express
     build: ./server
     image: express
     ports:
       - "3000:3000"
+    expose:
+      - "3000"
     volumes:
       # optional database [sqlite online]
       - ./server/prisma/dev.db:/app/prisma/dev.db
@@ -13,23 +17,32 @@ services:
       - ./server/.env
     # network
     networks:
-      - default
+      default:
+        aliases:
+          - cuvault-express
 
   model:
+    container_name: cuvault-model
     build: ./model
     image: model
     ports:
-      - "5000:8080"
+      - "5000:5000"
+    expose:
+      - "5000"
     networks:
-      - default
+      default:
+        aliases:
+          - cuvault-model
 
   frontend:
+    container_name: cuvault-frontend
     build: ./frontend
     image: frontend
     env_file:
       - ./frontend/.env
     ports:
       - "8080:8080"
+
 
 networks:
   default:

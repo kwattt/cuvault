@@ -10,5 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Bundle app source
 COPY . .
 
+# Expose port 5000
+EXPOSE 5000
+
 # gunicorn run server.py 
-CMD [ "gunicorn", "-b", "0.0.0.0:8080", "server:app" ]
+CMD [ "gunicorn", "-b", "0.0.0.0:5000", "server:app", "--access-logfile", "-"]
