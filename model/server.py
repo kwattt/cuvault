@@ -3,7 +3,7 @@ from model.model import DataModel
 app = Flask(__name__)
 import pandas as pd
 
-model = DataModel("modified_data.csv") 
+model = DataModel("dataset.csv") 
 model.generate_tfidf_matrices()
 model.generate_cosine_sim_matrices()
 model.train()
@@ -15,11 +15,11 @@ def train():
     # de-encode the bytes object to a string
     data = data.decode('utf-8')
     # write to modified_data2.csv
-    with open('modified_data.csv', 'w') as f:
+    with open('dataset.csv', 'w') as f:
         f.write(data)
 
     global model
-    model = DataModel('modified_data.csv')
+    model = DataModel('dataset.csv')
     model.generate_tfidf_matrices()
     model.generate_cosine_sim_matrices()
     model.train()

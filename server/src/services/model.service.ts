@@ -12,7 +12,6 @@ const createConcept = async (
   concept: string,
   definition: string,
   labels: string[],
-  subjects: string[],
   sources: string[]
 ): Promise<Concept> => {
   if (await getConceptByName(concept)) {
@@ -24,7 +23,6 @@ const createConcept = async (
       concept,
       definition,
       labels: labels.join(','),
-      subjects: subjects.join(','),
       sources: sources.join(',')
     }
   });
@@ -151,7 +149,7 @@ const updateConceptById = async <Key extends keyof Concept>(
   updateBody: Prisma.UserUpdateInput,
   keys: Key[] = ['id', 'email', 'name', 'role'] as Key[]
 ): Promise<Pick<Concept, Key> | null> => {
-  const concept = await getConceptById(conceptId, ['id', 'definition', 'labels', 'subjects', 'sources']);
+  const concept = await getConceptById(conceptId, ['id', 'definition', 'labels','sources']);
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');
   }

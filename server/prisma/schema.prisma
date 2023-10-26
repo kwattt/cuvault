@@ -19,7 +19,6 @@ model Concept {
   concept String  @unique
   definition String
   labels String
-  subjects String 
   sources String
 }
 

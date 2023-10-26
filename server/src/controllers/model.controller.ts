@@ -8,12 +8,12 @@ import prisma from '../client';
 
 const createConcept = catchAsync(async (req, res) => {
   const { concept, definition, labels, subjects, sources } = req.body;
-  const conceptBody = await modelService.createConcept(concept, definition, labels, subjects, sources);
+  const conceptBody = await modelService.createConcept(concept, definition, labels, sources);
   res.status(httpStatus.CREATED).send(conceptBody);
 });
 
 const getConcepts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['concept', 'definition', 'labels', 'subjects', 'sources']);
+  const filter = pick(req.query, ['concept', 'definition', 'labels','sources']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await modelService.queryConcepts(filter, options);
   res.send(result);
@@ -41,12 +41,12 @@ const trainModel = catchAsync(async (req, res) => {
   // get all concepts
   const concepts = await prisma.concept.findMany();
   // convert it to a csv, with each line being a concept
-  let csv = "concept" + "," + "definition" + "," + "labels" + "," + "subjects" + "," + "sources" + "\n";
+  let csv = "concept" + "," + "definition" + "," + "labels" +  "," + "sources" + "\n";
 
   for (let i = 0; i < concepts.length; i++) {
     const concept = concepts[i];
     csv += '"'+concept.concept + '","' + 
-    concept.definition + '","' + concept.labels + '","' + concept.subjects + '","' + concept.sources + '"\n';
+    concept.definition + '","' + concept.labels + '","' + concept.sources + '"\n';
   }
 
   // send it to the model
