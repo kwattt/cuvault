@@ -31,6 +31,7 @@ def search():
     global model
     search_term = request.args.get('query')
     results = model.search(search_term)
+    print(results)
     return jsonify(results)
 
 if __name__ == '__main__':

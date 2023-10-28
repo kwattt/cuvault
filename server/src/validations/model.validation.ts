@@ -7,7 +7,6 @@ const createConcept = {
     concept: Joi.string().required(),
     definition: Joi.string().required(),
     labels: Joi.array().items(Joi.string()).required(),
-    subjects: Joi.array().items(Joi.string()).required(),
     sources: Joi.array().items(Joi.string()).required(),
   })
 };
@@ -17,8 +16,6 @@ const getConcepts = {
     concept: Joi.string(),
     definition: Joi.string(),
     labels: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string()),
-    subjects: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string()),
-    sources: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string()),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer()
@@ -40,7 +37,6 @@ const updateConcept = {
       concept: Joi.string(),
       definition: Joi.string(),
       labels: Joi.array().items(Joi.string()),
-      subjects: Joi.array().items(Joi.string()),
       sources: Joi.array().items(Joi.string()),
     })
     .min(1)

@@ -10,7 +10,6 @@ interface Concept {
   concept: string
   definition: string
   labels: string
-  subjects: string
   sources: string
   createdAt: string
   updatedAt: string
@@ -25,7 +24,6 @@ const Concepto = () => {
     concept: '',
     definition: '',
     labels: '',
-    subjects: '',
     sources: '',
     createdAt: '',
     updatedAt: ''

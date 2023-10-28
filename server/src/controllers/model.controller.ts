@@ -7,7 +7,7 @@ import config from './../config/config';
 import prisma from '../client';
 
 const createConcept = catchAsync(async (req, res) => {
-  const { concept, definition, labels, subjects, sources } = req.body;
+  const { concept, definition, labels, sources } = req.body;
   const conceptBody = await modelService.createConcept(concept, definition, labels, sources);
   res.status(httpStatus.CREATED).send(conceptBody);
 });
@@ -20,6 +20,7 @@ const getConcepts = catchAsync(async (req, res) => {
 });
 
 const getConcept = catchAsync(async (req, res) => {
+  console.log(req.params.conceptId)
   const concept = await modelService.getConceptById(req.params.conceptId);
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');

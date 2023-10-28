@@ -8,7 +8,6 @@ interface Concept {
   concept: string
   definition: string
   labels: string
-  subjects: string
   sources: string
   createdAt: string
   updatedAt: string
@@ -25,7 +24,6 @@ const Conceptos = () => {
     concept: '',
     definition: '',
     labels: '',
-    subjects: '',
     sources: '',
     createdAt: '',
     updatedAt: ''
@@ -44,7 +42,6 @@ const Conceptos = () => {
       concept: newConcept.concept,
       definition: newConcept.definition,
       labels: newConcept.labels.split(','),
-      subjects: newConcept.subjects.split(','),
       sources: newConcept.sources.split(','),
     }
     const aconc = await handleApi('post', '/model', data, undefined, undefined)
@@ -53,7 +50,6 @@ const Conceptos = () => {
       concept: '',
       definition: '',
       labels: '',
-      subjects: '',
       sources: '',
       createdAt: '',
       updatedAt: ''
@@ -101,16 +97,6 @@ const Conceptos = () => {
         placeholder='Definición'
         value={newConcept.definition}
         onChange={(e) => setNewConcept({...newConcept, definition: e.target.value})}
-      />
-      <Input
-        placeholder='Etiquetas'
-        value={newConcept.labels}
-        onChange={(e) => setNewConcept({...newConcept, labels: e.target.value})}
-      />
-      <Input
-        placeholder='Temas'
-        value={newConcept.subjects}
-        onChange={(e) => setNewConcept({...newConcept, subjects: e.target.value})}
       />
       <Input
         placeholder='Fuentes'
@@ -236,9 +222,6 @@ const ConceptBox = ({ concept, striped }: { concept: Concept, striped:boolean })
           </Text>
         <Text>
           {concept.labels}
-        </Text>
-        <Text>
-          {concept.subjects}
         </Text>
         <Text>
           {concept.sources}
