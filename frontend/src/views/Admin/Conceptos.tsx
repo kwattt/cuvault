@@ -8,7 +8,6 @@ interface Concept {
   concept: string
   definition: string
   labels: string
-  subjects: string
   sources: string
   createdAt: string
   updatedAt: string
@@ -25,7 +24,6 @@ const Conceptos = () => {
     concept: '',
     definition: '',
     labels: '',
-    subjects: '',
     sources: '',
     createdAt: '',
     updatedAt: ''
@@ -43,17 +41,29 @@ const Conceptos = () => {
     let data = {
       concept: newConcept.concept,
       definition: newConcept.definition,
-      labels: newConcept.labels.split(','),
-      subjects: newConcept.subjects.split(','),
       sources: newConcept.sources.split(','),
+      labels: [''],
     }
+
+    let label_query_data = {
+      concept: newConcept.concept,
+      definition: newConcept.definition,
+    }
+    // add labels if not empty
+    console.log(newConcept.labels)
+    const label_query = await handleApi('get', '/model/predict', undefined, label_query_data, undefined)
+    if (label_query) {
+      // get response
+      data.labels = label_query
+    }
+    console.log(data)
     const aconc = await handleApi('post', '/model', data, undefined, undefined)
+    // predict concept
     if (aconc) {setNewConcept({
       id: -1,
       concept: '',
       definition: '',
       labels: '',
-      subjects: '',
       sources: '',
       createdAt: '',
       updatedAt: ''
@@ -101,16 +111,6 @@ const Conceptos = () => {
         placeholder='Definición'
         value={newConcept.definition}
         onChange={(e) => setNewConcept({...newConcept, definition: e.target.value})}
-      />
-      <Input
-        placeholder='Etiquetas'
-        value={newConcept.labels}
-        onChange={(e) => setNewConcept({...newConcept, labels: e.target.value})}
-      />
-      <Input
-        placeholder='Temas'
-        value={newConcept.subjects}
-        onChange={(e) => setNewConcept({...newConcept, subjects: e.target.value})}
       />
       <Input
         placeholder='Fuentes'
@@ -236,9 +236,6 @@ const ConceptBox = ({ concept, striped }: { concept: Concept, striped:boolean })
           </Text>
         <Text>
           {concept.labels}
-        </Text>
-        <Text>
-          {concept.subjects}
         </Text>
         <Text>
           {concept.sources}

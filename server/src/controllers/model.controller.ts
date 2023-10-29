@@ -7,13 +7,15 @@ import config from './../config/config';
 import prisma from '../client';
 
 const createConcept = catchAsync(async (req, res) => {
-  const { concept, definition, labels, subjects, sources } = req.body;
-  const conceptBody = await modelService.createConcept(concept, definition, labels, subjects, sources);
+  const { concept, definition,labels, sources } = req.body;
+  // calc prediction
+  // print something to see if it works
+  const conceptBody = await modelService.createConcept(concept, definition, labels, sources);
   res.status(httpStatus.CREATED).send(conceptBody);
 });
 
 const getConcepts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['concept', 'definition', 'labels', 'subjects', 'sources']);
+  const filter = pick(req.query, ['concept', 'definition', 'labels','sources']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await modelService.queryConcepts(filter, options);
   res.send(result);
@@ -41,12 +43,12 @@ const trainModel = catchAsync(async (req, res) => {
   // get all concepts
   const concepts = await prisma.concept.findMany();
   // convert it to a csv, with each line being a concept
-  let csv = "concept" + "," + "definition" + "," + "labels" + "," + "subjects" + "," + "sources" + "\n";
+  let csv = "concept" + "," + "definition" + "," + "labels" +  "," + "sources" + "\n";
 
   for (let i = 0; i < concepts.length; i++) {
     const concept = concepts[i];
     csv += '"'+concept.concept + '","' + 
-    concept.definition + '","' + concept.labels + '","' + concept.subjects + '","' + concept.sources + '"\n';
+    concept.definition + '","' + concept.labels + '","' + concept.sources + '"\n';
   }
 
   // send it to the model
@@ -92,6 +94,28 @@ const searchConcepts = catchAsync(async (req, res) => {
   return res.send(resultElements)
 })
 
+const predictConcept = catchAsync(async (req, res) => {
+  if(!req.query.concept || !req.query.definition)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No concept or definition provided');
+  const concept = req.query.concept as string;
+  const definition = req.query.definition as string;
+
+  const apiRes = await fetch(config.model_url+'/predict?'+
+    new URLSearchParams({
+      concept: concept,
+      definition: definition
+    })
+  )
+
+  if(apiRes.status != 200)
+    throw new ApiError(httpStatus.NOT_FOUND, 'Model prediction failed');
+  let data = await apiRes.json() as any[];
+  let labels = [];
+  // returns a single label
+  labels.push(data);
+  return res.send(labels)
+})
+
 export default {
   createConcept,
   getConcepts,
@@ -99,5 +123,6 @@ export default {
   updateConcept,
   deleteConcept,
   searchConcepts,
-  trainModel
+  trainModel,
+  predictConcept
 };

@@ -26,8 +26,8 @@ if __name__ == "__main__":
         # Insert the record in the database (remove all '' from the values)
         concept = conn.execute(f'''SELECT * FROM {table_name} WHERE concept = '{row['concept'].replace("'", " ").replace('"', "")}' ''').fetchall()
         if len(concept) == 0:
-            conn.execute(f'''INSERT INTO {table_name} (concept, definition, labels, subjects, sources) \
-                VALUES ('{row['concept'].replace("'", " ").replace('"', "")}', '{row['definition'].replace("'", " ").replace('"', "")}', '{row['labels'].replace("'", " ").replace('"', "")}', '{row['subjects'].replace("'", " ").replace('"', "")}', '{row['sources'].replace("'", " ").replace('"', "")}');''')
+            conn.execute(f'''INSERT INTO {table_name} (concept, definition, labels, sources) \
+                VALUES ('{row['concept'].replace("'", " ").replace('"', "")}', '{row['definition'].replace("'", " ").replace('"', "")}', '{row['labels'].replace("'", " ").replace('"', "")}', '{row['sources'].replace("'", " ").replace('"', "")}');''')
     conn.commit()
     conn.close()
     print("Data inserted successfully")

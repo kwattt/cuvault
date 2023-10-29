@@ -8,7 +8,6 @@ interface Concept {
   concept: string
   definition: string
   labels: string
-  subjects: string
   sources: string
 }
 

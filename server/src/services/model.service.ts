@@ -12,7 +12,6 @@ const createConcept = async (
   concept: string,
   definition: string,
   labels: string[],
-  subjects: string[],
   sources: string[]
 ): Promise<Concept> => {
   if (await getConceptByName(concept)) {
@@ -24,7 +23,6 @@ const createConcept = async (
       concept,
       definition,
       labels: labels.join(','),
-      subjects: subjects.join(','),
       sources: sources.join(',')
     }
   });
@@ -52,16 +50,15 @@ const queryConcepts = async <Key extends keyof Concept>(
     'concept',
     'definition',
     'labels',
-    'subjects',
     'sources',
     'createdAt',
     'updatedAt',
   ] as Key[]
 ): Promise<Pick<Concept, Key>[]> => {
   const page = options.page ?? 0;
-  const limit = options.limit ?? 10;
+  const limit = options.limit ?? 21;
   const sortBy = options.sortBy ?? 'id';
-  const sortType = options.sortType ?? 'desc';
+  const sortType = options.sortType ?? 'asc';
 
   // if any of the filter is an array, join them into strings with , as separator.
 
@@ -103,7 +100,6 @@ const getConceptById = async <Key extends keyof Concept>(
     'concept',
     'definition',
     'labels',
-    'subjects',
     'sources',
     'createdAt',
     'updatedAt',
@@ -128,7 +124,6 @@ const getConceptByName = async <Key extends keyof Concept>(
     'concept',
     'definition',
     'labels',
-    'subjects',
     'sources',
     'createdAt',
     'updatedAt',
@@ -151,7 +146,7 @@ const updateConceptById = async <Key extends keyof Concept>(
   updateBody: Prisma.UserUpdateInput,
   keys: Key[] = ['id', 'email', 'name', 'role'] as Key[]
 ): Promise<Pick<Concept, Key> | null> => {
-  const concept = await getConceptById(conceptId, ['id', 'definition', 'labels', 'subjects', 'sources']);
+  const concept = await getConceptById(conceptId, ['id', 'definition', 'labels','sources']);
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');
   }
@@ -176,6 +171,8 @@ const deleteConceptById = async (conceptId: number): Promise<Concept> => {
   await prisma.concept.delete({ where: { id: concept.id } });
   return concept;
 };
+
+
 
 export default {
   createConcept,
