@@ -188,6 +188,18 @@ class DataModel:
         self.generate_tfidf_matrices()
         self.generate_cosine_sim_matrices()
         self.train()
+    def predict_label(self,concept:string, definition:string):
+        x = self.data_preprocess([concept + ' ' + definition])
+
+        tfidf_x = self.tf_idf.transform(x)
+        cosine_sim = cosine_similarity(tfidf_x, self.tfidf_x_full)
+
+        X_combined = np.hstack((tfidf_x.toarray(), cosine_sim))
+
+        y_pred = self.model.predict(X_combined)
+        #returns label
+        print(y_pred[0])
+        return y_pred[0]
 
 if __name__ == '__main__':
     test = DataModel("dataset.csv")

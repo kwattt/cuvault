@@ -41,10 +41,24 @@ const Conceptos = () => {
     let data = {
       concept: newConcept.concept,
       definition: newConcept.definition,
-      labels: newConcept.labels.split(','),
       sources: newConcept.sources.split(','),
+      labels: [''],
     }
+
+    let label_query_data = {
+      concept: newConcept.concept,
+      definition: newConcept.definition,
+    }
+    // add labels if not empty
+    console.log(newConcept.labels)
+    const label_query = await handleApi('get', '/model/predict', undefined, label_query_data, undefined)
+    if (label_query) {
+      // get response
+      data.labels = label_query
+    }
+    console.log(data)
     const aconc = await handleApi('post', '/model', data, undefined, undefined)
+    // predict concept
     if (aconc) {setNewConcept({
       id: -1,
       concept: '',

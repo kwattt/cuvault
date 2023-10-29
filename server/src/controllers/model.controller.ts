@@ -7,7 +7,9 @@ import config from './../config/config';
 import prisma from '../client';
 
 const createConcept = catchAsync(async (req, res) => {
-  const { concept, definition, labels, sources } = req.body;
+  const { concept, definition,labels, sources } = req.body;
+  // calc prediction
+  // print something to see if it works
   const conceptBody = await modelService.createConcept(concept, definition, labels, sources);
   res.status(httpStatus.CREATED).send(conceptBody);
 });
@@ -20,7 +22,6 @@ const getConcepts = catchAsync(async (req, res) => {
 });
 
 const getConcept = catchAsync(async (req, res) => {
-  console.log(req.params.conceptId)
   const concept = await modelService.getConceptById(req.params.conceptId);
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');
@@ -93,6 +94,28 @@ const searchConcepts = catchAsync(async (req, res) => {
   return res.send(resultElements)
 })
 
+const predictConcept = catchAsync(async (req, res) => {
+  if(!req.query.concept || !req.query.definition)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No concept or definition provided');
+  const concept = req.query.concept as string;
+  const definition = req.query.definition as string;
+
+  const apiRes = await fetch(config.model_url+'/predict?'+
+    new URLSearchParams({
+      concept: concept,
+      definition: definition
+    })
+  )
+
+  if(apiRes.status != 200)
+    throw new ApiError(httpStatus.NOT_FOUND, 'Model prediction failed');
+  let data = await apiRes.json() as any[];
+  let labels = [];
+  // returns a single label
+  labels.push(data);
+  return res.send(labels)
+})
+
 export default {
   createConcept,
   getConcepts,
@@ -100,5 +123,6 @@ export default {
   updateConcept,
   deleteConcept,
   searchConcepts,
-  trainModel
+  trainModel,
+  predictConcept
 };

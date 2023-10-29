@@ -172,6 +172,8 @@ const deleteConceptById = async (conceptId: number): Promise<Concept> => {
   return concept;
 };
 
+
+
 export default {
   createConcept,
   queryConcepts,

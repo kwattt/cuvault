@@ -55,11 +55,14 @@ const searchConcepts = {
   })
 }
 
+
+
 export default {
   createConcept,
   getConcepts,
   getConcept,
   updateConcept,
   deleteConcept,
-  searchConcepts
+  searchConcepts,
+  
 };

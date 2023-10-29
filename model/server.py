@@ -34,5 +34,15 @@ def search():
     print(results)
     return jsonify(results)
 
+@app.route('/predict', methods=['GET'])
+def predict():
+    global model
+    print("Called predict")
+    concept = request.args.get('concept')
+    definition = request.args.get('definition')
+    results = model.predict_label(concept, definition)
+    print(results)
+    return jsonify(results)
+
 if __name__ == '__main__':
     app.run(debug=True)

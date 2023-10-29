@@ -15,6 +15,10 @@ router
   .get(validate(modelValidation.searchConcepts), modelController.searchConcepts);
 
 router
+  .route('/predict')
+  .get(modelController.predictConcept);
+
+router
   .route('/')
   .post(auth('manageModel'), validate(modelValidation.createConcept), modelController.createConcept)
   .get(validate(modelValidation.getConcepts), modelController.getConcepts);
