@@ -15,16 +15,15 @@ import spacy.cli
 def transform_sources(sources):
 
     def extract_sources_from_string(s):
-        try:
-            data = ast.literal_eval(s)
-            #print(data.get("fuentes", []))
-            return data.get("fuentes", [])
-        except:
-            print("Error parsing sources in string: " + s +"In row: " + str(sources.index))
-            return []
+        #Incoming string:
+        #{ fuentes: [Lipschutz, S. (1973). Teoría de conjuntos y temas afines. McGraw Hill. (Recomendado por UDG)] }
+        #Expected output:
+        #[Lipschutz, S. (1973). Teoría de conjuntos y temas afines. McGraw Hill. (Recomendado por UDG)]
+        s = s.replace("{ fuentes: ", "").replace("}", "")
+        return s
 
     sources_list = sources.apply(extract_sources_from_string)
-
+    print(sources_list)
     return sources_list
 class DataModel:
     def __init__(self, csv_path:string) -> None:
@@ -126,6 +125,7 @@ class DataModel:
         for i in range(len(top_entries)):
             #print(i, top_entries[i][3])
             top_entries[i][3] = self.sources[top_indices[i]]
+            # [label1,label2]
 
         # transform the list of lists into a dictionary so that it can be converted to JSON
         top_entries = [{'concept': entry[0], 'definition': entry[1], 'labels': entry[2], "sources": entry[3], "weight": entry[4]} for entry in top_entries]
@@ -202,7 +202,7 @@ class DataModel:
         return y_pred[0]
 
 if __name__ == '__main__':
-    test = DataModel("dataset.csv")
+    test = DataModel("dataset2.csv")
     #print shape of tfidf matrices
     test.generate_tfidf_matrices()
     test.generate_cosine_sim_matrices()

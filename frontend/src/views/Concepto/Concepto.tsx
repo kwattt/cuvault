@@ -1,6 +1,6 @@
 import { Navigate, useSearchParams } from "react-router-dom";
 import TopNav from "../../components/TopNav";
-import { Box, HStack, Link, Text, useColorMode } from "@chakra-ui/react";
+import { Box, HStack,Text, useColorMode } from "@chakra-ui/react";
 import useApi from "../../contexts/handleApi";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
@@ -80,13 +80,7 @@ const ConceptBlock = ({concept}: {concept: Concept}) => {
   <br/>
   <Box>
     <b>Fuente</b><br/>
-    <Link
-      href={concept.sources}
-      isExternal
-      color='blue.500'
-    >
-      {concept.sources}
-    </Link>
+    {concept.sources}
   </Box>
   <Box
     mt='5%'

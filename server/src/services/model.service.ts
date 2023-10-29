@@ -56,9 +56,9 @@ const queryConcepts = async <Key extends keyof Concept>(
   ] as Key[]
 ): Promise<Pick<Concept, Key>[]> => {
   const page = options.page ?? 0;
-  const limit = options.limit ?? 10;
+  const limit = options.limit ?? 21;
   const sortBy = options.sortBy ?? 'id';
-  const sortType = options.sortType ?? 'desc';
+  const sortType = options.sortType ?? 'asc';
 
   // if any of the filter is an array, join them into strings with , as separator.
 
