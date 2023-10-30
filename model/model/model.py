@@ -22,9 +22,9 @@ def transform_sources(sources):
         s = s.replace("{ fuentes: ", "").replace("}", "")
         return s
 
-    sources_list = sources.apply(extract_sources_from_string)
-    print(sources_list)
-    return sources_list
+    #sources_list = sources.apply(extract_sources_from_string)
+    #print(sources_list)
+    return sources
 class DataModel:
     def __init__(self, csv_path:string) -> None:
         self.data = pd.read_csv(csv_path)
@@ -62,6 +62,7 @@ class DataModel:
     def data_preprocess(self, text: list) -> list:
 
         def preprocess_string(s):
+            #print(s)
             s = unidecode.unidecode(s)
             s = ''.join(c for c in s if c not in string.punctuation and c not in string.digits)
             return ' '.join(s.split()).lower()
@@ -140,7 +141,7 @@ class DataModel:
         y_full = self.data['labels']
 
         # Splitting the data into training and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.5, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.1, random_state=42)
 
         #preprocess the data
         #X_train = self.data_preprocess(X_train)

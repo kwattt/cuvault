@@ -7,7 +7,9 @@ import config from './../config/config';
 import prisma from '../client';
 
 const createConcept = catchAsync(async (req, res) => {
-  const { concept, definition,labels, sources } = req.body;
+  const { concept, definition,labels } = req.body;
+  let {sources} = req.body;
+  // format sources
   // calc prediction
   // print something to see if it works
   const conceptBody = await modelService.createConcept(concept, definition, labels, sources);
@@ -18,6 +20,8 @@ const getConcepts = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['concept', 'definition', 'labels','sources']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await modelService.queryConcepts(filter, options);
+  // format sources
+  result[0].sources = modelService.formatSources(result[0].sources);
   res.send(result);
 });
 
@@ -30,6 +34,7 @@ const getConcept = catchAsync(async (req, res) => {
 });
 
 const updateConcept = catchAsync(async (req, res) => {
+
   const concept = await modelService.updateConceptById(req.params.conceptId, req.body);
   res.send(concept);
 });

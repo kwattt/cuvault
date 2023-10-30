@@ -79,13 +79,22 @@ const ConceptBlock = ({concept}: {concept: Concept}) => {
   </Text>
   <br/>
   <Box>
-    <b>Fuente</b><br/>
-    {concept.sources}
+    <b>Si quieres saber más sobre {concept.labels} puedes consultar estas fuentes</b><br/>
+      {concept.sources && concept.sources.split('<br>').map((source, i) => {
+        return <Box
+          key={i}
+        >
+
+          {source}
+          
+        </Box>
+      })}
+
   </Box>
   <Box
     mt='5%'
   >
-    <b>Categorias</b><br/>
+    <b>Categoria</b><br/>
     <HStack
     >
       {concept.labels && concept.labels.split(',').map((label, i) => {

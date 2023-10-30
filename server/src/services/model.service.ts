@@ -17,7 +17,15 @@ const createConcept = async (
   if (await getConceptByName(concept)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Concept already exists');
   }
-  // join lists into strings with , as separator
+  // format sources
+  // source format: "source1; source2; source3"
+  const joined_sources = sources.join(';');
+  // split string by ";"
+  const sourceList = joined_sources.split(';');
+  // addd (Recomendado por UDG) to each source
+  const formattedSources = sourceList.map(source => source.trim() + ' (Recomendado por UDG)');
+  // join them back
+  sources = formattedSources;
   return prisma.concept.create({
     data: {
       concept,
@@ -150,6 +158,9 @@ const updateConceptById = async <Key extends keyof Concept>(
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');
   }
+  // format sources
+  // source format: "source1; source2; source3"
+
   const updatedConcept = await prisma.concept.update({
     where: { id: concept.id },
     data: updateBody,
@@ -172,6 +183,28 @@ const deleteConceptById = async (conceptId: number): Promise<Concept> => {
   return concept;
 };
 
+// format the sources
+const formatSources = (sources: string): string => {
+    // Remove leading and trailing square brackets
+    const leftBracket = sources.replace('[', '');
+    const rightBracket = leftBracket.replace(']', '');
+
+    // Replace newline characters with spaces
+    const noNewlines = rightBracket.replace(/\n/g, ' ');
+
+    // Replace the pattern "(Recomendado por UDG)" with a line break
+    const pattern = /\(Recomendado por UDG\),? ?/g;
+    const formattedSources = noNewlines.replace(pattern, '(Recomendado por UDG)<br>');
+
+    // Split the sources by line break
+    const sourceList = formattedSources.split('\n');
+
+    // Remove empty strings
+    const filteredSources = sourceList.filter(source => source.trim() !== '');
+
+    // Join the sources back into a string, separating each source with a line break
+    return filteredSources.join('<br>').trim();
+};
 
 
 export default {
@@ -180,5 +213,6 @@ export default {
   getConceptById,
   getConceptByName,
   updateConceptById,
-  deleteConceptById
+  deleteConceptById,
+  formatSources,
 };
