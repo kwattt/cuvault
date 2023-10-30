@@ -18,6 +18,8 @@ const getConcepts = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['concept', 'definition', 'labels','sources']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await modelService.queryConcepts(filter, options);
+  // format sources
+  result[0].sources = modelService.formatSources(result[0].sources);
   res.send(result);
 });
 
