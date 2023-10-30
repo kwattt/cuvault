@@ -17,7 +17,15 @@ const createConcept = async (
   if (await getConceptByName(concept)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Concept already exists');
   }
-  // join lists into strings with , as separator
+  // format sources
+  // source format: "source1; source2; source3"
+  const joined_sources = sources.join(';');
+  // split string by ";"
+  const sourceList = joined_sources.split(';');
+  // addd (Recomendado por UDG) to each source
+  const formattedSources = sourceList.map(source => source.trim() + ' (Recomendado por UDG)');
+  // join them back
+  sources = formattedSources;
   return prisma.concept.create({
     data: {
       concept,
@@ -150,6 +158,9 @@ const updateConceptById = async <Key extends keyof Concept>(
   if (!concept) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Concept not found');
   }
+  // format sources
+  // source format: "source1; source2; source3"
+
   const updatedConcept = await prisma.concept.update({
     where: { id: concept.id },
     data: updateBody,
@@ -203,5 +214,5 @@ export default {
   getConceptByName,
   updateConceptById,
   deleteConceptById,
-  formatSources
+  formatSources,
 };

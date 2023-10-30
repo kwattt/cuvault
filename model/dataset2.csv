@@ -749,3 +749,5 @@ concept,definition,labels,sources
 "Descomposición de Jordan","Representación de una matriz en términos de bloques de Jordan.","Diagonalización y Formas Canónicas","[Lay, David C. (2013). Álgebra Lineal para cursos con enfoque por competencias. Pearson (Recomendada por UDG)] "
 "Matriz Semi Definida Positiva","Matriz Hermitiana para la cual todos sus valores propios son no negativos.","Diagonalización y Formas Canónicas","[Grossman, Stanley I. (2012). Álgebra Lineal. McGraw Hill (Recomendada por UDG)] "
 "Matriz Similar","Dos matrices son similares si una se puede obtener a partir de la otra mediante una transformación lineal.","Diagonalización y Formas Canónicas","[Larson, Ron (2015). Fundamentos de Álgebra Lineal. CENGAGE Learning (Recomendada por UDG)] "
+"Test","test","Análisis Estadístico","fuente1;fuente2"
+"Matriz Jacobiana","entrenamiento entrenamiento","Diagonalización y Formas Canónicas","fuente1 (Recomendado por UDG),fuente2 (Recomendado por UDG)"
