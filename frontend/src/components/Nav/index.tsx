@@ -147,6 +147,7 @@ const Nav = () => {
           <NavButton
             expand={expand}
             text='Ayuda'
+            onClick={() => navigate('/ayuda')}
             icon={FiHelpCircle}
           />
           </Box>

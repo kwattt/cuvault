@@ -6,6 +6,7 @@ import Concepto from './views/Concepto/Concepto'
 import Login from './views/Login'
 import Admin from './views/Admin'
 import { useEffect } from 'react'
+import Ayuda from './views/Ayuda'
 
 const App = () => {
   const { colorMode } = useColorMode()
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/' element={<Inicio/>}/>
         <Route path='/concepto' element={<Concepto/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/ayuda' element={<Ayuda/>}/>
         <Route path='/admin' element={<Admin/>}/>
       </Routes>
       </Box>
