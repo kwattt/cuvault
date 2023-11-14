@@ -10,6 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, f1_score, hamming_loss
+from sklearn.neural_network import MLPClassifier
 import ast
 import spacy.cli
 def transform_sources(sources):
@@ -141,7 +142,7 @@ class DataModel:
         y_full = self.data['labels']
 
         # Splitting the data into training and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.1, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.2, random_state=42)
 
         #preprocess the data
         #X_train = self.data_preprocess(X_train)
@@ -168,7 +169,8 @@ class DataModel:
 
         # Model training
 
-        self.model = SVC(kernel='linear', C=1, random_state=42)
+
+        self.model = MLPClassifier(hidden_layer_sizes=(200,), activation='relu', solver='adam', verbose=False, random_state=42, max_iter=1000)
         self.model.fit(X_train_combined, y_train)
 
         # Model prediction and evaluation
