@@ -5,6 +5,7 @@ import Inicio from './views/Inicio'
 import Concepto from './views/Concepto/Concepto'
 import Login from './views/Login'
 import Admin from './views/Admin'
+import Foro from './views/Foro'
 import { useEffect } from 'react'
 import Ayuda from './views/Ayuda'
 
@@ -42,6 +43,9 @@ const App = () => {
         <Route path='/login' element={<Login/>}/>
         <Route path='/ayuda' element={<Ayuda/>}/>
         <Route path='/admin' element={<Admin/>}/>
+        <Route path='/foro' element={<Foro/>}/>
+        <Route path='/foro/:section' element={<ForoSection/>}/>
+        <Route path='/foro/:section/:thread' element={<ForoThread/>}/>
       </Routes>
       </Box>
     </BrowserRouter>
