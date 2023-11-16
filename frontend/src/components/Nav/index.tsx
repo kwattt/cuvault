@@ -31,7 +31,7 @@ const Nav = () => {
 
   useEffect(() => {
     const expand = JSON.parse(localStorage.getItem('expand') || 'false')
-    if(isOpen === expand)
+    if(isOpen === expand && !enableExpand)
       // trigger
       getButtonProps().onClick()
     setExpand(expand)
@@ -87,10 +87,8 @@ const Nav = () => {
             transition='0.1s linear'
 
             onClick={() => {
-              if(enableExpand){
                 getButtonProps().onClick()
                 localStorage.setItem('expand', JSON.stringify(!expand))
-              }
             }}
           >
             {!expand ? <>
