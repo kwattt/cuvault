@@ -1,4 +1,4 @@
-import { Box, Divider, Image, useColorMode } from "@chakra-ui/react"
+import { Box,  Image, useColorMode } from "@chakra-ui/react"
 
 type SectionType = {
   title: string,
@@ -88,7 +88,7 @@ const Foro = () => {
   </Box>
 }
 
-const SectionHeader = ({ title, description, posts }: SectionType) => {
+const SectionHeader = ({ title, posts }: SectionType) => {
   return <Box
     display='flex'
     justifyContent='space-between'
