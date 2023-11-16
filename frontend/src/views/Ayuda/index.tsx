@@ -6,7 +6,11 @@ const Ayuda = () => {
     textAlign='center'
     p='2em'
   >
-  Frequently Asked Questions (FAQ)
+    <Text
+    fontSize='1.3em'
+    >
+      <b>Preguntas frecuentes (FAQ)</b>
+    </Text>
   </Box>
   <Box
     textAlign='left'
@@ -40,9 +44,8 @@ const Ayuda = () => {
     <b>¿Dónde puedo consultar el código fuente del proyecto?</b>
     <Text>
     El código fuente del proyecto puede ser consultado en el siguiente repositorio.
-    </Text><br/>
+    </Text>
   </Box>
-
 <Box
       textAlign='center'
       p='2em'

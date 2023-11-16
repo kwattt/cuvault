@@ -138,11 +138,6 @@ const Nav = () => {
             id='/'
             onClick={() => navigate('/')}
           />
-          <NavButton
-            text='Conversaciones'
-            expand={expand}
-            icon={MdOutlineForum}
-          />
 
           <NavButton
             expand={expand}

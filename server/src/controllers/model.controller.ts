@@ -75,11 +75,14 @@ const searchConcepts = catchAsync(async (req, res) => {
   if(query.length < 3)
     throw new ApiError(httpStatus.BAD_REQUEST, 'Query must be at least 3 characters long');
 
+
+  console.log("calling api")
   const apiRes = await fetch(config.model_url+'/search?'+ 
     new URLSearchParams({
       query: query 
     })
   )
+  console.log('done!')
 
   if(apiRes.status != 200)
     throw new ApiError(httpStatus.NOT_FOUND, 'No concepts found');

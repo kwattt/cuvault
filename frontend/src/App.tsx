@@ -44,8 +44,6 @@ const App = () => {
         <Route path='/ayuda' element={<Ayuda/>}/>
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/foro' element={<Foro/>}/>
-        <Route path='/foro/:section' element={<ForoSection/>}/>
-        <Route path='/foro/:section/:thread' element={<ForoThread/>}/>
       </Routes>
       </Box>
     </BrowserRouter>

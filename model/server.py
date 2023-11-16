@@ -29,6 +29,7 @@ def train():
 @app.route('/search', methods=['GET'])
 def search():
     global model
+    print("sex")
     search_term = request.args.get('query')
     results = model.search(search_term)
     print(results)
